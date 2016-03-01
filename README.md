@@ -1,6 +1,6 @@
-# adf-widget-adf-widget-jenkins
+# adf-widget-jenkins
 
-adf-widget-jenkins widget for the [angular-dashboard-framework](https://github.com/sdorra/angular-dashboard-framework).
+jenkins widget for the [angular-dashboard-framework](https://github.com/sdorra/angular-dashboard-framework).
 
 ## Build
 
@@ -20,7 +20,7 @@ npm install
 bower install
 ```
 
-#### Build the adf-widget-adf-widget-jenkins
+#### Build the adf-widget-jenkins
 
 ```bash
 gulp
@@ -41,11 +41,11 @@ Each goal can be used as parameter for the gulp command.
 Include the script in your index.html and be sure it is loaded after [angular](https://angularjs.org/) and after the [angular-dashboard-framework](https://github.com/sdorra/angular-dashboard-framework).
 
 ```html
-<script type="text/javascript" src="path/to/adf-widget-jenkins.min.js"></script>
+<script type="text/javascript" src="path/to/jenkins.min.js"></script>
 ```
 
 Define a dependency for the module:
 
 ```javascript
-angular.module('sample', ['adf', 'adf.widget.adf-widget-jenkins']);
+angular.module('sample', ['adf', 'adf.widget.jenkins']);
 ```

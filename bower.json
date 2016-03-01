@@ -1,7 +1,7 @@
 {
-  "name": "adf-widget-adf-widget-jenkins",
+  "name": "adf-widget-jenkins",
   "version": "0.1.0",
-  "main": "dist/adf-widget-adf-widget-jenkins.js",
+  "main": "dist/adf-widget-jenkins.js",
   "ignore": [
     "bower.json",
     ".bowerrc",
@@ -19,7 +19,7 @@
     "adf",
     "adf-widget"
   ],
-  "description": "adf widgets for preparing statistic data from jenkins server",
+  "description": "widget to display statistics from jenkins",
   "dependencies": {
     "angular-dashboard-framework": "0.8.0"
   },

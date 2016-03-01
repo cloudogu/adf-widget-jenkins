@@ -14,8 +14,8 @@ var annotateOptions = {
 };
 
 var templateOptions = {
-  root: '{widgetsPath}/adf-widget-jenkins/src',
-  module: 'adf.widget.adf-widget-jenkins'
+  root: '{widgetsPath}/jenkins/src',
+  module: 'adf.widget.jenkins'
 };
 
 /** lint **/

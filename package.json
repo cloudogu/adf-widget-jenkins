@@ -1,5 +1,5 @@
 {
-  "name": "adf-widget-adf-widget-jenkins",
+  "name": "adf-widget-jenkins",
   "version": "0.1.0",
   "keywords": [
     "dashboard",
@@ -7,7 +7,7 @@
     "adf",
     "adf-widget"
   ],
-  "description": "adf widgets for preparing statistic data from jenkins server",
+  "description": "widget to display statistics from jenkins",
   "dependencies": {},
   "devDependencies": {
     "gulp": "^3.8.11",

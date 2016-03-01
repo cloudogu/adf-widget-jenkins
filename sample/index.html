@@ -50,9 +50,9 @@
 
     <script type="text/javascript">
       angular
-       .module('adfWidgetSample', ['adf', 'adf.widget.adf-widget-jenkins', 'LocalStorageModule'])
+       .module('adfWidgetSample', ['adf', 'adf.widget.jenkins', 'LocalStorageModule'])
        .config(function(dashboardProvider, localStorageServiceProvider){
-         localStorageServiceProvider.setPrefix('adf.adf-widget-jenkins');
+         localStorageServiceProvider.setPrefix('adf.jenkins');
          dashboardProvider.structure('4-8', {
             rows: [{
               columns: [{
@@ -75,8 +75,8 @@
               }, {
                 styleClass: 'col-md-8',
                 widgets: [{
-                  type: 'adf-widget-jenkins',
-                  title: 'adf-widget-jenkins',
+                  type: 'jenkins',
+                  title: 'jenkins',
                   config: {}
                 }]
               }]
