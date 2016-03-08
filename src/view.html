@@ -1,6 +1,29 @@
+<style type="text/css">
+  .jobStatus {
+    width:20px;
+    height:20px;
+    float:left;
+    border-radius: 10px;
+  }
+  .jobName{
+    margin-left: 30px;
+    margin-bottom:10px;
+
+  }
+  .jobEntry{
+    overflow: auto;
+    height: 400px;
+  }
+
+</style>
 <div>
   <h1>Jenkins Statistic</h1>
-  <div>
-  <p>{{vm.data}}</p>
+  <h3>jenkins jobs with buildstate</h3>
+  <div class="jobEntry col-md-8">
+  <div ng-repeat="job in vm.data">
+
+    <div class="jobStatus" style="background-color:{{job.color}};"></div>
+    <div class="jobName">{{job.name}}</div>
+  </div>
   </div>
 </div>

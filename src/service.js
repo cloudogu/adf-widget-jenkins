@@ -11,6 +11,9 @@ function jenkinsApi($http) {
 
     return apiUrl + '/api/json/jobs';
   }
+  function parseXML(response, filter){
+
+  }
 
   function getData(apiUrl) {
     var connection = createApiConnection(apiUrl);
@@ -21,7 +24,11 @@ function jenkinsApi($http) {
          'Accept': 'application/json'
        }
      }).then(function(response){
-       var jenkinsJobs = response.data.jobs;
+       var jenkinsJobs;
+       //for(var i=0;i<response.length;i++){
+       // jenkinsJobs[i] = response.data.jobs[i].name;
+       //}
+       jenkinsJobs = response.data.jobs
        return jenkinsJobs;
      })
    }
