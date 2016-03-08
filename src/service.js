@@ -11,9 +11,33 @@ function jenkinsApi($http) {
 
     return apiUrl + '/api/json/jobs';
   }
-  function parseXML(response, filter){
-
+  function parseStats(jobList){
+    var countStable=0;var countUnstable=0;var countFail=0;
+    var countDisabled=0; var countAborted;
+    var total = jobList.length;
+    for (var i = 0; i < total; i++) {
+      if (jobList[i].color == 'blue'){
+        countStable++;
+      }
+      if (jobList[i].color == 'red'){
+        countFail++;
+      }
+      if (jobList[i].color == 'yellow'){
+        countUnstable++;
+      }
+      if (jobList[i].color =='notbuilt' || jobList[i].color =='disabled'){
+        countDisabled++;
+      }
+      if (jobList[i].color == 'aborted'){
+        countAborted++;
+      }
+    }
+    var jenkinsStats = {stable:countStable,fail:countFail,unstable:countUnstable,aborted: countAborted,
+      disabled: countDisabled,total:total,joblist:jobList};
+    return jenkinsStats;
   }
+
+
 
   function getData(apiUrl) {
     var connection = createApiConnection(apiUrl);
@@ -24,12 +48,9 @@ function jenkinsApi($http) {
          'Accept': 'application/json'
        }
      }).then(function(response){
-       var jenkinsJobs;
-       //for(var i=0;i<response.length;i++){
-       // jenkinsJobs[i] = response.data.jobs[i].name;
-       //}
-       jenkinsJobs = response.data.jobs
-       return jenkinsJobs;
+       var jobList = response.data.jobs;
+       var jenkinsStats = parseStats(jobList);
+       return jenkinsStats;
      })
    }
   return {

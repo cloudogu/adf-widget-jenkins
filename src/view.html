@@ -1,29 +1,52 @@
 <style type="text/css">
   .jobStatus {
-    width:20px;
-    height:20px;
-    float:left;
+    width: 20px;
+    height: 20px;
+    float: left;
     border-radius: 10px;
   }
-  .jobName{
+  .jobName {
     margin-left: 30px;
-    margin-bottom:10px;
-
+    margin-bottom: 10px;
   }
-  .jobEntry{
+  .jobEntry {
     overflow: auto;
     height: 400px;
   }
-
+  .counter {
+    outline: 2px solid #ddd;
+    height: 100px;
+  }
 </style>
 <div>
   <h1>Jenkins Statistic</h1>
   <h3>jenkins jobs with buildstate</h3>
-  <div class="jobEntry col-md-8">
-  <div ng-repeat="job in vm.data">
+  <div class="content">
+    <div class="jobEntry col-md-8">
+      <div ng-repeat="job in vm.data.joblist">
 
-    <div class="jobStatus" style="background-color:{{job.color}};"></div>
-    <div class="jobName">{{job.name}}</div>
+        <div class="jobStatus" style="background-color:{{job.color}};"></div>
+        <div class="jobName">{{job.name}}</div>
+      </div>
+    </div>
+
+    <div class="counter col-md-4" style="background-color: green;">
+      <h1>{{vm.data.stable}}</h1>
+      stable builds
+    </div>
+    <div class="counter col-md-4" style="background-color: red;">
+      <h1>{{vm.data.fail}}</h1>
+      failed builds
+    </div>
+    <div class="counter col-md-4" style="background-color: yellow;">
+      <h1>{{vm.data.unstable}}</h1>
+      unstable builds
+    </div>
+    <div class="counter col-md-4">
+      <h1>{{vm.data.total}}</h1>
+      total builds
+    </div>
+
   </div>
-  </div>
+
 </div>
