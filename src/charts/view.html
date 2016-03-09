@@ -1,0 +1,45 @@
+<style type="text/css">
+  #stable{
+    background-color: #ABC8D7;
+  }
+  #failed{
+    background-color: #F7464A;
+  }
+  #unstable{
+    background-color: #FDB45C;
+  }
+  #disabled{
+    background-color: #DCDCDC;
+  }
+  .counter {
+    outline: 2px solid #ddd;
+    height: 100px;
+  }
+</style>
+<div>
+  <div class="content">
+
+    <canvas id="doughnut" class="chart chart-doughnut"
+      chart-data="jc.chartValues" chart-labels="jc.chartLabels" chart-colours="jc.chartColors">
+    </canvas>
+
+    <div class="counter col-md-6" id="stable">
+      <h1>{{jc.data.stable || 0}}</h1>
+      stable builds
+    </div>
+    <div class="counter col-md-6" id="unstable">
+      <h1>{{jc.data.unstable || 0}}</h1>
+      unstable builds
+    </div>
+    <div class="counter col-md-6" id="failed">
+      <h1>{{jc.data.fail || 0}}</h1>
+      failed builds
+    </div>
+    <div class="counter col-md-6"id="disabled">
+      <h1>{{jc.data.aborted+jc.data.disabled || 0}}</h1>
+      disabled builds
+    </div>
+
+  </div>
+
+</div>
