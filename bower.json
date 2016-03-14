@@ -22,7 +22,8 @@
   "description": "widget to display statistics from jenkins",
   "dependencies": {
     "angular-dashboard-framework": "^0.11.0",
-    "Chart.js": "^1.0.2"
+    "Chart.js": "^1.0.2",
+    "angular-chart.js": "^0.8.8"
   },
   "devDependencies": {
     "angular-local-storage": "0.1.5"
