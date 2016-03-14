@@ -2,7 +2,7 @@
   .jobStatus {
     width: 20px;
     height: 20px;
-    float: left;
+    float: right;
     border-radius: 10px;
   }
   .jobName {
@@ -19,34 +19,15 @@
   }
 </style>
 <div>
-  <h1>Jenkins Statistic</h1>
-  <h3>jenkins jobs with buildstate</h3>
+  <h1>Jenkins JobList</h1>
   <div class="content">
-    <div class="jobEntry col-md-8">
-      <div ng-repeat="job in vm.data.joblist">
+<ul>
+    <li ng-repeat="job in vm.data">
+    <a href="{{job.url}}"  target="_blank">{{job.name}}</a>
 
-        <div class="jobStatus" style="background-color:{{job.color}};"></div>
-        <div class="jobName">{{job.name}}</div>
-      </div>
-    </div>
 
-    <div class="counter col-md-4" style="background-color: green;">
-      <h1>{{vm.data.stable}}</h1>
-      stable builds
-    </div>
-    <div class="counter col-md-4" style="background-color: red;">
-      <h1>{{vm.data.fail}}</h1>
-      failed builds
-    </div>
-    <div class="counter col-md-4" style="background-color: yellow;">
-      <h1>{{vm.data.unstable}}</h1>
-      unstable builds
-    </div>
-    <div class="counter col-md-4">
-      <h1>{{vm.data.total}}</h1>
-      total builds
-    </div>
-
+  </li>
+<ul>
   </div>
 
 </div>

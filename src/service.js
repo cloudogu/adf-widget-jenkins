@@ -13,7 +13,7 @@ function jenkinsApi($http) {
   }
   function parseStats(jobList){
     var countStable=0;var countUnstable=0;var countFail=0;
-    var countDisabled=0; var countAborted;
+    var countDisabled=0; var countAborted=0;
     var total = jobList.length;
     for (var i = 0; i < total; i++) {
       if (jobList[i].color == 'blue'){
@@ -33,13 +33,11 @@ function jenkinsApi($http) {
       }
     }
     var jenkinsStats = {stable:countStable,fail:countFail,unstable:countUnstable,aborted: countAborted,
-      disabled: countDisabled,total:total,joblist:jobList};
+      disabled: countDisabled,total:total};
     return jenkinsStats;
   }
 
-
-
-  function getData(apiUrl) {
+  function getJobData(apiUrl) {
     var connection = createApiConnection(apiUrl);
     return $http({
        method: 'GET',
@@ -49,11 +47,17 @@ function jenkinsApi($http) {
        }
      }).then(function(response){
        var jobList = response.data.jobs;
-       var jenkinsStats = parseStats(jobList);
-       return jenkinsStats;
+       return jobList;
      })
    }
+
+  function getJobStats(apiUrl){
+    return getJobData(apiUrl).then(parseStats);
+  }
+
+
   return {
-    getData: getData
+    getJobStats: getJobStats,
+    getJobData: getJobData
   };
 }
