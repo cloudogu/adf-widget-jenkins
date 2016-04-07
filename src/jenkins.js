@@ -6,13 +6,13 @@ var jenkinsWidget = angular.module('adf.widget.jenkins', ['adf.provider', 'chart
 function registerWidget(dashboardProvider) {
   dashboardProvider
     .widget('jenkins', {
-      title: 'Jenkins BuildJob View',
-      description: 'Widget to display custom jenkins jobs',
+      title: 'Jenkins Project View',
+      description: 'Widget to display custom jenkins job',
       templateUrl: '{widgetsPath}/jenkins/src/view.html',
       resolve: {
         data: function(jenkinsApi, config) {
           if (config.apiUrl) {
-            return jenkinsApi.getJobData(config.apiUrl);
+            return jenkinsApi.getJobData(config.apiUrl,config.project);
           }
           return 'Please Setup the Widget';
         }
@@ -24,7 +24,7 @@ function registerWidget(dashboardProvider) {
       }
     })
     .widget('jenkinsStats', {
-      title: 'Jenkins Statistics',
+      title: 'Jenkins Global Statistics',
       description: 'Widget to diplay chart statistics from jenkins',
       templateUrl: '{widgetsPath}/jenkins/src/charts/view.html',
       resolve: {
@@ -38,7 +38,7 @@ function registerWidget(dashboardProvider) {
       controller: 'jenkinsChart',
       controllerAs: 'jc',
       edit: {
-        templateUrl: '{widgetsPath}/jenkins/src/edit.html'
+        templateUrl: '{widgetsPath}/jenkins/src/charts/edit.html'
       }
     });
 }

@@ -11,6 +11,9 @@ function jenkinsApi($http) {
 
     return apiUrl + '/api/json/jobs';
   }
+  function createProjectConnection(apiUrl, project){
+    return apiUrl + '/job/'+project+'/lastBuild/api/json';
+  }
   function parseStats(jobList){
     var countStable=0;var countUnstable=0;var countFail=0;
     var countDisabled=0; var countAborted=0;
@@ -37,7 +40,7 @@ function jenkinsApi($http) {
     return jenkinsStats;
   }
 
-  function getJobData(apiUrl) {
+  function getJobList(apiUrl){
     var connection = createApiConnection(apiUrl);
     return $http({
        method: 'GET',
@@ -46,13 +49,39 @@ function jenkinsApi($http) {
          'Accept': 'application/json'
        }
      }).then(function(response){
-       var jobList = response.data.jobs;
-       return jobList;
+       return response.data.jobs;
+     })
+  }
+
+  function getJobData(apiUrl,project) {
+    var connection = createProjectConnection(apiUrl,project);
+    return $http({
+       method: 'GET',
+       url: connection,
+       headers: {
+         'Accept': 'application/json'
+       }
+     }).then(function(response){
+       var status = response.data.result;
+       var url = response.data.url;
+       var imgUrl = "";
+       if(status == "SUCCESS"){
+         imgUrl = "src/img/thumbUp.png"
+       }
+       if (status == "FAILURE") {
+         imgUrl = "src/img/thumbDown.png";
+       }
+
+       var lastCommitBy = response.data.changeSet.items[0].author.fullName;
+       var lastCommitMsg = response.data.changeSet.items[0].msg;
+       var projectInfo = {status:status,url:url,lastCommitBy:lastCommitBy,lastCommitMsg:lastCommitMsg, imgUrl: imgUrl};
+
+       return projectInfo;
      })
    }
 
   function getJobStats(apiUrl){
-    return getJobData(apiUrl).then(parseStats);
+    return getJobList(apiUrl).then(parseStats);
   }
 
 

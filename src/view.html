@@ -19,15 +19,17 @@
   }
 </style>
 <div>
-  <h1>Jenkins JobList</h1>
   <div class="content">
-<ul>
-    <li ng-repeat="job in vm.data">
-    <a href="{{job.url}}"  target="_blank">{{job.name}}</a>
+    <div>
 
-
-  </li>
-<ul>
+        <a href={{vm.data.url}}>
+          <img src={{vm.data.imgUrl}} style="max-width:150px;">
+        </a>
+        <blockquote>
+          <p>{{vm.data.lastCommitMsg}}</p>
+          <footer>{{vm.data.lastCommitBy}}</footer>
+        </blockquote>
+    </div>
   </div>
 
 </div>
