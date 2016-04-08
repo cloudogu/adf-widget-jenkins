@@ -40,5 +40,23 @@ function registerWidget(dashboardProvider) {
       edit: {
         templateUrl: '{widgetsPath}/jenkins/src/charts/edit.html'
       }
+    })
+    .widget('lastBuilds', {
+      title: 'Get last builds',
+      description: 'Widget to diplay the state of last builds',
+      templateUrl: '{widgetsPath}/jenkins/src/lastBuilds/view.html',
+      resolve: {
+        data: function(jenkinsApi, config) {
+          if (config.apiUrl) {
+            return jenkinsApi.getLastBuilds(config.apiUrl,config.numberOfBuilds);
+          }
+          return 'Please Setup the Widget';
+        }
+      },
+      controller: 'lastBuildsController',
+      controllerAs: 'vm',
+      edit: {
+        templateUrl: '{widgetsPath}/jenkins/src/lastBuilds/edit.html'
+      }
     });
 }
