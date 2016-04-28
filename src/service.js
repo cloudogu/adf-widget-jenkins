@@ -74,19 +74,7 @@ function jenkinsApi($http) {
     })
   }
 
-  //returns specific informations for every jenkins job
-  function getBuilds(apiUrl, jobList) {
-    var total = jobList.length;
-    var builds = [];
-    for (var i = 0; i < total; i++) {
-      console.log(jobList[i]);
-      console.log(getJobData(apiUrl, jobList[i].name));
 
-      //console.log(getJobData(apiUrl, jobList[i].name));
-
-    }
-    return "AHHS";
-  }
 
   //returns information for a defined range of builds
   function getLastBuilds(apiUrl, numberOfBuilds) {
