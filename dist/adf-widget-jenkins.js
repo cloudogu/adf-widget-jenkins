@@ -25,7 +25,9 @@ function registerWidget(dashboardProvider) {
       controller: 'jenkinsJobList',
       controllerAs: 'vm',
       edit: {
-        templateUrl: '{widgetsPath}/jenkins/src/edit.html'
+        templateUrl: '{widgetsPath}/jenkins/src/edit.html',
+        controller: 'projectViewEditController',
+        controllerAs: 'vm'
       }
     })
     .widget('jenkinsStats', {
@@ -51,7 +53,7 @@ function registerWidget(dashboardProvider) {
 }
 registerWidget.$inject = ["dashboardProvider"];
 
-angular.module("adf.widget.jenkins").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/jenkins/src/edit.html","<form role=form><div class=form-group><label for=sample>Connection Setup</label><p><input class=form-control id=apiUrl ng-model=config.apiUrl placeholder=\"Enter Api-Url\" type=text></p><label for=sample>Project</label><p><input class=form-control id=project ng-model=config.project placeholder=Project type=text></p></div></form>");
+angular.module("adf.widget.jenkins").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/jenkins/src/edit.html","<form role=form><div class=form-group><label for=sample>Connection Setup</label><p><input class=form-control id=apiUrl ng-model=config.apiUrl placeholder=\"Enter Api-Url\" type=text ng-change=updateProjects()></p><label for=sample>Project</label><select name=project id=project class=form-control ng-model=config.project><option ng-repeat=\"project in vm.projects | orderBy: \'name\'\">{{project.name}}</option></select></div></form>");
 $templateCache.put("{widgetsPath}/jenkins/src/view.html","<style type=text/css>\n\n  .counter {\n    outline: 2px solid #ddd;\n    height: 100px;\n  }\n  .statusImg {\n    max-width: 150px;\n  }\n  .projectLink {\n    padding-top: 10%;\n  }\nblockquote{\n  margin-top: 20%;\n}\n\n\n</style><div><div class=content><div><a class=\"col-md-12 col-xs-12\" href=\'{{vm.data.url}}target=\"_blank\"\'><img class=\"col-md-6 col-xs-6 statusImg\" src={{vm.data.imgUrl}}><h4 class=\"col-md-6 col-xs-6 projectLink\">{{vm.data.projectFullName}}</h4></a><br><blockquote><p>{{vm.data.lastCommitMsg}}</p><footer>{{vm.data.lastCommitBy}}</footer></blockquote></div></div></div>");
 $templateCache.put("{widgetsPath}/jenkins/src/charts/edit.html","<form role=form><div class=form-group><label for=sample>Connection Setup</label><p><input class=form-control id=apiUrl ng-model=config.apiUrl placeholder=\"Enter Api-Url\" type=text></p></div></form>");
 $templateCache.put("{widgetsPath}/jenkins/src/charts/view.html","<style type=text/css>\n  #stable{\n    background-color: #01B7EB;\n  }\n  #failed{\n    background-color: #F7464A;\n  }\n  #unstable{\n    background-color: #FDB45C;\n  }\n  #disabled{\n    background-color: #DCDCDC;\n  }\n  .counter {\n    outline: 2px solid #ddd;\n    height: 100px;\n  }\n</style><div><div class=content><canvas id=doughnut class=\"chart chart-doughnut\" chart-data=jc.chartValues chart-labels=jc.chartLabels chart-colours=jc.chartColors></canvas><div class=\"counter col-md-6\" id=stable><h1>{{jc.data.stable || 0}}</h1>stable builds</div><div class=\"counter col-md-6\" id=unstable><h1>{{jc.data.unstable || 0}}</h1>unstable builds</div><div class=\"counter col-md-6\" id=failed><h1>{{jc.data.fail || 0}}</h1>failed builds</div><div class=\"counter col-md-6\" id=disabled><h1>{{jc.data.aborted+jc.data.disabled || 0}}</h1>disabled builds</div></div></div>");}]);
@@ -95,7 +97,6 @@ function jenkinsApi($http) {
 
   //get all jobs
   function createApiConnection(apiUrl) {
-
     return apiUrl + '/api/json/jobs';
   }
 
@@ -155,8 +156,6 @@ function jenkinsApi($http) {
     })
   }
 
-
-
   //returns information for a defined range of builds
   function getLastBuilds(apiUrl, numberOfBuilds) {
     return getJobList(apiUrl).then(getBuilds(apiUrl));
@@ -211,10 +210,37 @@ function jenkinsApi($http) {
 
   //setup the functions called by widget
   return {
+    getJobList: getJobList,
     getJobStats: getJobStats,
     getJobData: getJobData,
     getLastBuilds: getLastBuilds
   };
 }
 jenkinsApi.$inject = ["$http"];
+
+
+
+angular.module('adf.widget.jenkins')
+  .controller('projectViewEditController', ["jenkinsApi", "$scope", "jenkinsEndpoint", function(jenkinsApi, $scope, jenkinsEndpoint) {
+
+    var vm = this;
+    $scope.updateProjects = function() {
+      var url;
+      if ($scope.config.apiUrl) {
+        url = $scope.config.apiUrl;
+      } else {
+        url = jenkinsEndpoint.url;
+      }
+      vm.projects = [];
+      jenkinsApi.getJobList(url).then(function(data) {
+        data.forEach(function(project) {
+          var proj = {
+            name: project.name
+          }
+          vm.projects.push(proj);
+        });
+      });
+    }
+    $scope.updateProjects();
+  }]);
 })(window);

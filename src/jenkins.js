@@ -24,7 +24,9 @@ function registerWidget(dashboardProvider) {
       controller: 'jenkinsJobList',
       controllerAs: 'vm',
       edit: {
-        templateUrl: '{widgetsPath}/jenkins/src/edit.html'
+        templateUrl: '{widgetsPath}/jenkins/src/edit.html',
+        controller: 'projectViewEditController',
+        controllerAs: 'vm'
       }
     })
     .widget('jenkinsStats', {

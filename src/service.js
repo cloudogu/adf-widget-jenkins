@@ -14,7 +14,6 @@ function jenkinsApi($http) {
 
   //get all jobs
   function createApiConnection(apiUrl) {
-
     return apiUrl + '/api/json/jobs';
   }
 
@@ -74,8 +73,6 @@ function jenkinsApi($http) {
     })
   }
 
-
-
   //returns information for a defined range of builds
   function getLastBuilds(apiUrl, numberOfBuilds) {
     return getJobList(apiUrl).then(getBuilds(apiUrl));
@@ -130,6 +127,7 @@ function jenkinsApi($http) {
 
   //setup the functions called by widget
   return {
+    getJobList: getJobList,
     getJobStats: getJobStats,
     getJobData: getJobData,
     getLastBuilds: getLastBuilds
