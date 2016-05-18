@@ -97,10 +97,10 @@ function jenkinsApi($http) {
       var projectFullName = response.data.fullDisplayName;
       var imgUrl = "";
       if (status == "SUCCESS") {
-        imgUrl = "src/img/thumbUp.png"
+        imgUrl = "http://iconmonstr.com/wp-content/g/gd/makefg.php?i=../assets/preview/2013/png/iconmonstr-thumb-18.png&r=0&g=0&b=0";
       }
       if (status == "FAILURE") {
-        imgUrl = "src/img/thumbDown.png";
+        imgUrl = "http://iconmonstr.com/wp-content/g/gd/makefg.php?i=../assets/preview/2013/png/iconmonstr-thumb-24.png&r=0&g=0&b=0";
       }
       var lastCommit = response.data.changeSet.items[0];
       var lastCommitMsg="Kein Infos zum letzen Commit";
