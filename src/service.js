@@ -4,13 +4,19 @@ jenkinsWidget
   .factory('jenkinsApi', jenkinsApi);
 
 
+
 //function factory jenkinsStats
 function jenkinsApi($http) {
 
+  const imgURLBuildSuccess = 'src/img/thumbUp.png';
+  const imgURLBuildFailed = 'src/img/thumbDown.png';
+  const defaultMsgNoAuthor = 'No author found';
+  const defaultMsgNoCommitInfo = 'No commit information found';
+
 
   /*
-  *Connection settings should be fixed in dashboard dogu
-  */
+   *Connection settings should be fixed in dashboard dogu
+   */
 
   //get all jobs
   function createApiConnection(apiUrl) {
@@ -48,7 +54,7 @@ function jenkinsApi($http) {
         countAborted++;
       }
     }
-    var jenkinsStats = {
+    return {
       stable: countStable,
       fail: countFail,
       unstable: countUnstable,
@@ -56,7 +62,40 @@ function jenkinsApi($http) {
       disabled: countDisabled,
       total: total
     };
-    return jenkinsStats;
+
+  }
+
+
+  function crawlJenkinsJobs(instanceURL) {
+    var connection = instanceURL + '/api/json?tree=jobs[name,buildable,color,jobs[name,buildable,color,jobs[name,buildable,color,jobs[name,buildable,color,jobs]]]]&pretty';
+    return $http({
+      method: 'GET',
+      url: connection,
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(function (response) {
+      var jobItems = [];
+      jobItems = resolveJobFolder(response.data, jobItems);
+      return jobItems;
+    })
+  }
+
+  function resolveJobFolder(job, jobItems) {
+    var folderName = job.name;
+    job.jobs.forEach(function (job) {
+      if (job.buildable) {
+        if (folderName === undefined || folderName == null) {
+          jobItems.push({name: job.name, color: job.color});
+        } else {
+          jobItems.push({name: folderName + " / " + job.name, color: job.color});
+        }
+      }
+      if (job.jobs) {
+        resolveJobFolder(job, jobItems);
+      }
+    });
+    return jobItems;
   }
 
   //returns all jobs in jenkins instance
@@ -68,14 +107,14 @@ function jenkinsApi($http) {
       headers: {
         'Accept': 'application/json'
       }
-    }).then(function(response) {
+    }).then(function (response) {
       return response.data.jobs;
     })
   }
 
   //returns information for a defined range of builds
-  function getLastBuilds(apiUrl, numberOfBuilds) {
-    return getJobList(apiUrl).then(getBuilds(apiUrl));
+  function getLastBuilds(apiUrl) {
+    return getJobList(apiUrl);
   }
 
 
@@ -88,26 +127,26 @@ function jenkinsApi($http) {
       headers: {
         'Accept': 'application/json'
       }
-    }).then(function(response) {
+    }).then(function (response) {
       var status = response.data.result;
       var url = response.data.url;
       var projectFullName = response.data.fullDisplayName;
       var imgUrl = "";
       if (status == "SUCCESS") {
-        imgUrl = "http://iconmonstr.com/wp-content/g/gd/makefg.php?i=../assets/preview/2013/png/iconmonstr-thumb-18.png&r=0&g=0&b=0";
+        imgUrl = imgURLBuildSuccess;
       }
       if (status == "FAILURE") {
-        imgUrl = "http://iconmonstr.com/wp-content/g/gd/makefg.php?i=../assets/preview/2013/png/iconmonstr-thumb-24.png&r=0&g=0&b=0";
+        imgUrl = imgURLBuildFailed;
       }
       var lastCommit = response.data.changeSet.items[0];
-      var lastCommitMsg="Kein Infos zum letzen Commit";
-      var lastCommitBy="Keine Infos zum Autor";
-      if (lastCommit){
+      var lastCommitMsg = defaultMsgNoCommitInfo;
+      var lastCommitBy = defaultMsgNoAuthor;
+      if (lastCommit) {
         lastCommitBy = lastCommit.author.fullName;
         lastCommitMsg = lastCommit.msg;
       }
 
-      var projectInfo = {
+      return {
         status: status,
         url: url,
         lastCommitBy: lastCommitBy,
@@ -115,14 +154,12 @@ function jenkinsApi($http) {
         imgUrl: imgUrl,
         projectFullName: projectFullName
       };
-
-      return projectInfo;
     })
   }
 
   //returns statistics over the whole jenkins instance
   function getJobStats(apiUrl) {
-    return getJobList(apiUrl).then(parseStats);
+    return crawlJenkinsJobs(apiUrl).then(parseStats);
   }
 
   //setup the functions called by widget
@@ -130,6 +167,7 @@ function jenkinsApi($http) {
     getJobList: getJobList,
     getJobStats: getJobStats,
     getJobData: getJobData,
-    getLastBuilds: getLastBuilds
+    getLastBuilds: getLastBuilds,
+    crawlJenkinsJobs: crawlJenkinsJobs
   };
 }
