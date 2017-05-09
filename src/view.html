@@ -1,34 +1,24 @@
 <style type="text/css">
 
-  .counter {
-    outline: 2px solid #ddd;
-    height: 100px;
-  }
   .statusImg {
-    max-width: 150px;
+    max-width: 125px;
   }
-  .projectLink {
-    padding-top: 10%;
-  }
-blockquote{
-  margin-top: 20%;
-}
-
 
 </style>
 <div>
   <div class="content">
-    <div>
+    <div ng-if="vm.data">
+      <div class="col-md-6 col-xs-6">
+      <a href={{vm.data.url}}target="_blank">
+        <h4>{{vm.data.projectFullName}}</h4>
+      </a>
+        <p><b>Last Commit:</b> {{vm.data.lastCommitMsg}}</p>
+        <footer><b>Author:</b> {{vm.data.lastCommitBy}}</footer>
+      </div>
 
-        <a class="col-md-12 col-xs-12" href={{vm.data.url}}target="_blank">
-          <img class="col-md-6 col-xs-6 statusImg" src={{vm.data.imgUrl}}>
-          <h4 class="col-md-6 col-xs-6 projectLink">{{vm.data.projectFullName}}</h4>
-        </a>
-    <br>
-        <blockquote>
-          <p>{{vm.data.lastCommitMsg}}</p>
-          <footer>{{vm.data.lastCommitBy}}</footer>
-        </blockquote>
+      <div  class="col-md-6 col-xs-6 pull-right">
+        <img class="statusImg pull-right" src={{vm.data.imgUrl}}>
+      </div>
 
     </div>
   </div>
