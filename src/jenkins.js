@@ -1,6 +1,6 @@
 'use strict';
 
-var jenkinsWidget = angular.module('adf.widget.jenkins', ['adf.provider', 'chart.js'])
+var jenkinsWidget = angular.module('adf.widget.jenkins', ['adf.provider', 'chart.js', 'ui.bootstrap'])
   .constant("jenkinsEndpoint", {
     "url": "http://builds.apache.org"
   })
