@@ -12,14 +12,14 @@ angular.module('adf.widget.jenkins')
         url = jenkinsEndpoint.url;
       }
       vm.projects = [];
-      jenkinsApi.getJobList(url).then(function(data) {
+      jenkinsApi.crawlJenkinsJobs(url).then(function(data) {
         data.forEach(function(project) {
           var proj = {
             name: project.name
-          }
+          };
           vm.projects.push(proj);
         });
       });
-    }
+    };
     $scope.updateProjects();
   });
