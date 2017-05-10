@@ -8,8 +8,9 @@ jenkinsWidget
 //function factory jenkinsStats
 function jenkinsApi($http) {
 
-  const imgURLBuildSuccess = 'src/img/thumbUp.png';
-  const imgURLBuildFailed = 'src/img/thumbDown.png';
+  const imgURLBuildSuccess = 'src/img/successful.png';
+  const imgURLBuildFailed = 'src/img/failed.png';
+  const imgURLBuildUnstable = 'src/img/unstable.png';
   const defaultMsgNoAuthor = 'No author found';
   const defaultMsgNoCommitInfo = 'No commit information found';
 
@@ -137,6 +138,9 @@ function jenkinsApi($http) {
       }
       if (status == "FAILURE") {
         imgUrl = imgURLBuildFailed;
+      }
+      if (status == "UNSTABLE") {
+        imgUrl = imgURLBuildUnstable;
       }
       var lastCommit = response.data.changeSet.items[0];
       var lastCommitMsg = defaultMsgNoCommitInfo;
