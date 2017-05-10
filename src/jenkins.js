@@ -8,9 +8,9 @@ var jenkinsWidget = angular.module('adf.widget.jenkins', ['adf.provider', 'chart
 
 function registerWidget(dashboardProvider) {
   dashboardProvider
-    .widget('jenkins', {
-      title: 'Jenkins Project View',
-      description: 'Widget to display custom jenkins job',
+    .widget('jenkinsBuildReport', {
+      title: 'Jenkins Build Report',
+      description: 'Displays current build information',
       templateUrl: '{widgetsPath}/jenkins/src/view.html',
       resolve: {
         data: function(jenkinsApi, config, jenkinsEndpoint) {
@@ -29,9 +29,9 @@ function registerWidget(dashboardProvider) {
         controllerAs: 'vm'
       }
     })
-    .widget('jenkinsStats', {
+    .widget('jenkinsGlobalStatistics', {
       title: 'Jenkins Global Statistics',
-      description: 'Widget to diplay chart statistics from jenkins',
+      description: 'Displays all build jobs as pie chart',
       templateUrl: '{widgetsPath}/jenkins/src/charts/view.html',
       resolve: {
         data: function(jenkinsApi, config, jenkinsEndpoint) {
