@@ -132,16 +132,14 @@ function jenkinsApi($http) {
       var status = response.data.result;
       var url = response.data.url;
       var projectFullName = response.data.fullDisplayName;
-      var imgUrl = "";
+      var imgUrl = imgURLBuildUnstable;
       if (status == "SUCCESS") {
         imgUrl = imgURLBuildSuccess;
       }
-      if (status == "FAILURE") {
+      else if (status == "FAILURE") {
         imgUrl = imgURLBuildFailed;
       }
-      if (status == "UNSTABLE") {
-        imgUrl = imgURLBuildUnstable;
-      }
+
       var lastCommit = response.data.changeSet.items[0];
       var lastCommitMsg = defaultMsgNoCommitInfo;
       var lastCommitBy = defaultMsgNoAuthor;
