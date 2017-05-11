@@ -7,10 +7,13 @@ var jenkinsWidget = angular.module('adf.widget.jenkins', ['adf.provider', 'chart
   .config(registerWidget);
 
 function registerWidget(dashboardProvider) {
+  var category = 'Jenkins';
+
   dashboardProvider
     .widget('jenkinsBuildReport', {
       title: 'Jenkins Build Report',
       description: 'Displays current build information',
+      category: category,
       templateUrl: '{widgetsPath}/jenkins/src/view.html',
       resolve: {
         data: function(jenkinsApi, config, jenkinsEndpoint) {
@@ -32,6 +35,7 @@ function registerWidget(dashboardProvider) {
     .widget('jenkinsGlobalStatistics', {
       title: 'Jenkins Global Statistics',
       description: 'Displays all build jobs as pie chart',
+      category: category,
       templateUrl: '{widgetsPath}/jenkins/src/charts/view.html',
       resolve: {
         data: function(jenkinsApi, config, jenkinsEndpoint) {
