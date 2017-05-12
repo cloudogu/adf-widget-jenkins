@@ -76,14 +76,13 @@ function jenkinsApi($http) {
         'Accept': 'application/json'
       }
     }).then(function (response) {
-      var jobItems = [];
-      jobItems = resolveJobFolder(response.data, jobItems);
-      return jobItems;
+      return resolveJobFolder(response.data);
     })
   }
 
-  function resolveJobFolder(job, jobItems) {
+  function resolveJobFolder(job) {
     var folderName = job.name;
+    var jobItems = [];
     job.jobs.forEach(function (job) {
       if (job.buildable) {
         if (folderName === undefined || folderName == null) {
@@ -93,7 +92,7 @@ function jenkinsApi($http) {
         }
       }
       if (job.jobs) {
-        resolveJobFolder(job, jobItems);
+        jobItems.push(resolveJobFolder(job));
       }
     });
     return jobItems;
