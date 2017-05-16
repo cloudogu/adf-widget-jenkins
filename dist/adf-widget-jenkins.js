@@ -58,7 +58,7 @@ function registerWidget(dashboardProvider) {
 registerWidget.$inject = ["dashboardProvider"];
 
 angular.module("adf.widget.jenkins").run(["$templateCache", function($templateCache) {$templateCache.put("{widgetsPath}/jenkins/src/edit.html","<form role=form><div class=form-group><label>Connection Setup</label><p><input class=form-control id=apiUrl ng-model=config.apiUrl placeholder=\"Enter Api-Url\" type=text ng-change=updateProjects()></p><label>Project</label> <input type=text ng-model=config.project uib-typeahead=\"project.name for project in vm.projects | filter:$viewValue | limitTo:10\" class=form-control></div></form>");
-$templateCache.put("{widgetsPath}/jenkins/src/view.html","<style type=text/css>\n\n  .statusImg {\n    max-width: 125px;\n  }\n\n</style><div><div class=content><div ng-if=vm.data><div class=\"col-md-6 col-xs-6\"><a href=\'{{vm.data.url}}target=\"_blank\"\'><h4>{{vm.data.projectFullName}}</h4></a><p><b>Last Commit:</b> {{vm.data.lastCommitMsg}}</p><footer><b>Author:</b> {{vm.data.lastCommitBy}}</footer></div><div class=\"col-md-6 col-xs-6 pull-right\"><img class=\"statusImg pull-right\" src={{vm.data.imgUrl}}></div></div></div></div>");
+$templateCache.put("{widgetsPath}/jenkins/src/view.html","<style type=text/css>\n\n  .statusImg {\n    max-width: 100px;\n  }\n\n</style><div><div class=content><div ng-if=vm.data><div class=\"col-md-6 col-xs-6\"><a href=\'{{vm.data.url}}target=\"_blank\"\'><h4>{{vm.data.projectFullName}}</h4></a><p><b>Last Commit:</b> {{vm.data.lastCommitMsg}}</p><footer><b>Author:</b> {{vm.data.lastCommitBy}}</footer></div><div class=\"col-md-6 col-xs-6 pull-right\"><img class=\"statusImg pull-right\" src={{vm.data.imgUrl}}></div></div></div></div>");
 $templateCache.put("{widgetsPath}/jenkins/src/charts/edit.html","<form role=form><div class=form-group><label for=sample>Connection Setup</label><p><input class=form-control id=apiUrl ng-model=config.apiUrl placeholder=\"Enter Api-Url\" type=text></p></div></form>");
 $templateCache.put("{widgetsPath}/jenkins/src/charts/view.html","<style type=text/css>\n  #stable{\n    background-color: #009587;\n  }\n  #failed{\n    background-color: #F34235;\n  }\n  #unstable{\n    background-color: #FEC006;\n  }\n  #disabled{\n    background-color: #DCDCDC;\n  }\n  .counter {\n    outline: 2px solid #ddd;\n    height: 100px;\n  }\n</style><div><div class=content><canvas id=doughnut class=\"chart chart-doughnut\" chart-data=jc.chartValues chart-labels=jc.chartLabels chart-colours=jc.chartColors></canvas><div class=\"counter col-md-6\" id=stable><h1>{{jc.data.stable || 0}}</h1>stable builds</div><div class=\"counter col-md-6\" id=unstable><h1>{{jc.data.unstable || 0}}</h1>unstable builds</div><div class=\"counter col-md-6\" id=failed><h1>{{jc.data.fail || 0}}</h1>failed builds</div><div class=\"counter col-md-6\" id=disabled><h1>{{jc.data.aborted+jc.data.disabled || 0}}</h1>disabled builds</div></div></div>");}]);
 'use strict'
@@ -95,9 +95,9 @@ jenkinsWidget
 //function factory jenkinsStats
 function jenkinsApi($http) {
 
-  const imgURLBuildSuccess = 'src/img/successful.png';
-  const imgURLBuildFailed = 'src/img/failed.png';
-  const imgURLBuildUnstable = 'src/img/unstable.png';
+  const imgURLBuildSuccess = 'src/images/success.png';
+  const imgURLBuildFailed = 'src/images/failed.png';
+  const imgURLBuildUnstable = 'src/images/unstable.png';
   const defaultMsgNoAuthor = 'No author found';
   const defaultMsgNoCommitInfo = 'No commit information found';
 
@@ -163,14 +163,13 @@ function jenkinsApi($http) {
         'Accept': 'application/json'
       }
     }).then(function (response) {
-      var jobItems = [];
-      jobItems = resolveJobFolder(response.data, jobItems);
-      return jobItems;
+      return resolveJobFolder(response.data);
     })
   }
 
-  function resolveJobFolder(job, jobItems) {
+  function resolveJobFolder(job) {
     var folderName = job.name;
+    var jobItems = [];
     job.jobs.forEach(function (job) {
       if (job.buildable) {
         if (folderName === undefined || folderName == null) {
@@ -180,7 +179,7 @@ function jenkinsApi($http) {
         }
       }
       if (job.jobs) {
-        resolveJobFolder(job, jobItems);
+        jobItems.push(resolveJobFolder(job));
       }
     });
     return jobItems;
