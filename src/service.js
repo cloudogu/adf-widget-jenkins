@@ -8,9 +8,9 @@ jenkinsWidget
 //function factory jenkinsStats
 function jenkinsApi($http) {
 
-  const imgURLBuildSuccess = 'src/img/successful.png';
-  const imgURLBuildFailed = 'src/img/failed.png';
-  const imgURLBuildUnstable = 'src/img/unstable.png';
+  const imgURLBuildSuccess = 'src/images/success.png';
+  const imgURLBuildFailed = 'src/images/failed.png';
+  const imgURLBuildUnstable = 'src/images/unstable.png';
   const defaultMsgNoAuthor = 'No author found';
   const defaultMsgNoCommitInfo = 'No commit information found';
 

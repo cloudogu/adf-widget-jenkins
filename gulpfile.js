@@ -6,6 +6,7 @@ var del = require('del');
 var jsReporter = require('jshint-stylish');
 var annotateAdfPlugin = require('ng-annotate-adf-plugin');
 var pkg = require('./package.json');
+const imagemin = require('gulp-imagemin');
 
 var annotateOptions = {
   plugin: [
@@ -46,7 +47,7 @@ gulp.task('sample', ['templates'], function(){
   var files = gulp.src(['src/**/*.js', 'src/**/*.css', 'src/**/*.less', '.tmp/dist/*.js'])
                   .pipe($.if('*.js', $.angularFilesort()));
 
-  gulp.src('sample/index.html')
+  gulp.src(['sample/index.html'])
       .pipe(wiredep({
         directory: './components/',
         bowerJson: require('./bower.json'),
@@ -56,6 +57,12 @@ gulp.task('sample', ['templates'], function(){
       .pipe($.inject(files))
       .pipe(gulp.dest('.tmp/dist'))
       .pipe(connect.reload());
+});
+
+gulp.task('images', function(){
+  return gulp.src('src' + '/images/*.{jpg,png,gif}')
+    .pipe(imagemin({verbose: true}))
+    .pipe(gulp.dest('dist' + '/src/images'));
 });
 
 gulp.task('watch', function(){
@@ -103,4 +110,4 @@ gulp.task('clean', function(cb){
   del(['dist', '.tmp'], cb);
 });
 
-gulp.task('default', ['css', 'js']);
+gulp.task('default',['css', 'js', 'images']);
