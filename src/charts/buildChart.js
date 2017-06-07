@@ -12,4 +12,5 @@ jenkinsWidget.controller('jenkinsChart', function(data) {
   jc.chartLabels = labels;
   jc.chartValues = values;
   jc.chartColors = colors;
+
 });

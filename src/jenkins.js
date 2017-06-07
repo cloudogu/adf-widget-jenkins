@@ -50,7 +50,9 @@ function registerWidget(dashboardProvider) {
       controller: 'jenkinsChart',
       controllerAs: 'jc',
       edit: {
-        templateUrl: '{widgetsPath}/jenkins/src/charts/edit.html'
+        templateUrl: '{widgetsPath}/jenkins/src/charts/edit.html',
+        controller: 'projectViewEditController',
+        controllerAs: 'vm'
       }
     });
 }

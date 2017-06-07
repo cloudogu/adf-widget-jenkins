@@ -1,13 +1,12 @@
 <form role="form">
   <div class="form-group">
-    <label>Connection Setup</label>
-    <p>
-      <input class="form-control" id="apiUrl" ng-model="config.apiUrl" placeholder="Enter Api-Url" type="text" ng-change="updateProjects()">
+    <label ng-if="!vm.url">Connection Setup</label>
+    <p ng-if="!vm.url">
+      <input class="form-control" id="apiUrl" ng-model="config.apiUrl" placeholder="Enter Api-Url" type="text" ng-change="vm.updateProjectList(config.apiUrl)">
     </p>
     <label>Project</label>
 
     <input type="text" ng-model="config.project"
            uib-typeahead="project.name for project in vm.projects | filter:$viewValue | limitTo:10" class="form-control">
-
   </div>
 </form>
