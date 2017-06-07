@@ -15,11 +15,14 @@
     outline: 2px solid #ddd;
     height: 100px;
   }
+  #doughnut.center{
+    margin: 0 auto;
+  }
 </style>
 <div>
   <div class="content">
-    <canvas id="doughnut" class="chart chart-doughnut"
-      chart-data="jc.chartValues" chart-labels="jc.chartLabels" chart-colours="jc.chartColors">
+    <canvas id="doughnut" class="chart chart-doughnut center"
+      chart-data="jc.chartValues" chart-labels="jc.chartLabels" chart-colors="jc.chartColors">
     </canvas>
 
     <div class="counter col-md-6" id="stable">
