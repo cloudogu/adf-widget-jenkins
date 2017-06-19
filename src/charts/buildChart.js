@@ -8,7 +8,7 @@ jenkinsWidget.controller('jenkinsChart', function(data) {
   //configure chart
   var labels = ["Stable", "Fail","Unstable","Diabled"];
   var values = [jc.data.stable,jc.data.fail,jc.data.unstable,jc.data.disabled];
-  var colors = ['#009587','#F34235','#FEC006','#DCDCDC'];
+  var colors = ['#B5CA00','#DD7800','#E43B53','#777777'];
   jc.chartLabels = labels;
   jc.chartValues = values;
   jc.chartColors = colors;
