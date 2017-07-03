@@ -1,9 +1,10 @@
 <style type="text/css">
-
   .statusImg {
     max-width: 100px;
   }
-
+  .break-word {
+    word-wrap: break-word
+  }
 </style>
 <div>
   <div class="content">
@@ -11,19 +12,18 @@
       Please configure a project
     </div>
     <div ng-if="vm.data">
-      <div class="col-md-6 col-xs-6">
-      <a href={{vm.data.url}}target="_blank">
-        <h4>{{vm.data.projectFullName}}</h4>
-      </a>
+      <div class="col-md-7 col-xs-7">
+        <a href="{{vm.data.url}}" target="_blank" class="break-word">
+          <h4>{{vm.data.projectFullName}}</h4>
+        </a>
         <p><b>Last Commit:</b> {{vm.data.lastCommitMsg}}</p>
         <p><b>Author:</b> {{vm.data.lastCommitBy}}</p>
       </div>
 
-      <div ng-if="vm.data.imgSource" class="col-md-6 col-xs-6 pull-right">
+      <div ng-if="vm.data.imgSource" class="col-md-5 col-xs-5 pull-right">
         <img ng-src="{{vm.data.imgSource}}" class="statusImg pull-right">
       </div>
 
     </div>
   </div>
-
 </div>
