@@ -25,8 +25,14 @@ function jenkinsApi($http) {
   }
 
   //get info about specific project
-  function createProjectConnection(apiUrl, project) {
-    return apiUrl + '/job/' + project + '/lastBuild/api/json';
+  function createProjectConnection(apiUrl, jobName) {
+    var convertedJobName = convertJobName(jobName);
+    return apiUrl + '/job/' + convertedJobName + '/lastBuild/api/json';
+  }
+
+  // convert compound job names (e.g. for organizations or folders) to fit jenkins rest api
+  function convertJobName(jobName) {
+    return jobName.replace(/\//g, "/job/");
   }
 
 
@@ -66,7 +72,6 @@ function jenkinsApi($http) {
 
   }
 
-
   function crawlJenkinsJobs(instanceURL) {
     var connection = instanceURL + '/api/json?tree=jobs[name,buildable,color,jobs[name,buildable,color,jobs[name,buildable,color,jobs[name,buildable,color,jobs]]]]&pretty';
     return $http({
@@ -76,23 +81,29 @@ function jenkinsApi($http) {
         'Accept': 'application/json'
       }
     }).then(function (response) {
-      return resolveJobFolder(response.data);
+      return resolveJobFolder(response.data, "");
     })
   }
 
-  function resolveJobFolder(job) {
-    var folderName = job.name;
+  function resolveJobFolder(job, folder) {
+    var folderName = folder;
+    if (job.name) {
+      if (folderName) {
+        folderName += '/';
+      }
+      folderName += job.name;
+    }
     var jobItems = [];
-    job.jobs.forEach(function (job) {
-      if (job.buildable) {
-        if (folderName === undefined || folderName == null) {
-          jobItems.push({name: job.name, color: job.color});
+    job.jobs.forEach(function (childJob) {
+      if (childJob.buildable) {
+        if (!folderName) {
+          jobItems = jobItems.concat({ name: childJob.name, color: childJob.color });
         } else {
-          jobItems.push({name: folderName + " / " + job.name, color: job.color});
+          jobItems = jobItems.concat({ name: folderName + "/" + childJob.name, color: childJob.color });
         }
       }
-      if (job.jobs) {
-        jobItems.push(resolveJobFolder(job));
+      if (childJob.jobs) {
+        jobItems = jobItems.concat(resolveJobFolder(childJob, folderName));
       }
     });
     return jobItems;
@@ -139,12 +150,21 @@ function jenkinsApi($http) {
         imgSource = imgBuildFailed;
       }
 
-      var lastCommit = response.data.changeSet.items[0];
+      var changeset = response.data.changeSet;
+      if (!changeset) {
+        if (response.data.changeSets) {
+          changeset = response.data.changeSets[0];
+        }
+      }
       var lastCommitMsg = defaultMsgNoCommitInfo;
       var lastCommitBy = defaultMsgNoAuthor;
-      if (lastCommit) {
-        lastCommitBy = lastCommit.author.fullName;
-        lastCommitMsg = lastCommit.msg;
+      if (changeset && changeset.items) {
+        var lastIndex = changeset.items.length - 1;
+        var lastCommit = changeset.items[lastIndex];
+        if (lastCommit) {
+          lastCommitBy = lastCommit.author.fullName;
+          lastCommitMsg = lastCommit.msg;
+        }
       }
 
       return {
