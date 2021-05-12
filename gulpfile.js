@@ -23,26 +23,29 @@ const templateOptions = {
 
 /** lint **/
 
-gulp.task('csslint', function () {
+gulp.task('csslint', (done) => {
   gulp.src('src/**/*.css')
     .pipe($.csslint())
     .pipe($.csslint.reporter());
+  done();
 });
 
-gulp.task('jslint', function () {
+gulp.task('jslint', (done) => {
   gulp.src('src/**/*.js')
     .pipe($.jshint())
     .pipe($.jshint.reporter(jsReporter));
+  done();
 });
 
 gulp.task('lint', gulp.series('csslint', 'jslint'));
 
 /** serve **/
 
-gulp.task('templates', () => {
-  return gulp.src('src/**/*.html')
+gulp.task('templates', (done) => {
+  gulp.src('src/**/*.html')
     .pipe($.angularTemplatecache('templates.tpl.js', templateOptions))
     .pipe(gulp.dest('.tmp/dist'));
+  done();
 });
 
 gulp.task('sample', (done) => {
