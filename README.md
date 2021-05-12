@@ -34,7 +34,7 @@ Each goal can be used as parameter for the gulp command.
 
 * *clean*: removes the dist folder
 * *lint*: checks css and javascript files for common errors
-* *serve*: starts an webserver to test the widget
+* *serve*: starts an webserver to test the widgets in local development. To provide the widgets with test data, "https://builds.apache.org/" is stored as the URL in `jenkins.js` by default. For local development, a [CORS plugin](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf) must be used in the browser.
 
 ## Usage
 
