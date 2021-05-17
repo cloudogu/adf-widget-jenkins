@@ -1,13 +1,7 @@
 'use strict';
 
-var jenkinsWidget = angular.module('adf.widget.jenkins', ['adf.provider', 'chart.js', 'ui.bootstrap'])
-  .constant("jenkinsEndpoint", {
-    "url": "http://builds.apache.org"
-  })
-  .config(registerWidget);
-
 function registerWidget(dashboardProvider) {
-  var category = 'Jenkins';
+  const category = 'Jenkins';
 
   dashboardProvider
     .widget('jenkinsBuildReport', {
@@ -56,3 +50,9 @@ function registerWidget(dashboardProvider) {
       }
     });
 }
+
+const jenkinsWidget = angular.module('adf.widget.jenkins', ['adf.provider', 'chart.js', 'ui.bootstrap'])
+  .constant("jenkinsEndpoint", {
+    "url": "https://builds.apache.org/"
+  })
+  .config(registerWidget);

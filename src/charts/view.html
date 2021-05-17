@@ -1,19 +1,25 @@
 <style type="text/css">
   #stable{
-    background-color: #009587;
+    background-color: #B5CA00;
   }
   #failed{
-    background-color: #F34235;
+    background-color: #E43B53;
   }
   #unstable{
-    background-color: #FEC006;
+    background-color: #DD7800;
   }
   #disabled{
-    background-color: #DCDCDC;
+    background-color: #777777;
   }
-  .counter {
+  .content>.counter>p{
+    color:white;
+    margin: 20px 0 10px;
+    font-size: xx-large;
+  }
+  .content>.counter  {
     outline: 2px solid #ddd;
     height: 100px;
+    color: white;
   }
   #doughnut.center{
     margin: 0 auto;
@@ -22,26 +28,23 @@
 <div>
   <div class="content">
     <canvas id="doughnut" class="chart chart-doughnut center"
-      chart-data="jc.chartValues" chart-labels="jc.chartLabels" chart-colors="jc.chartColors">
+            chart-data="jc.chartValues" chart-labels="jc.chartLabels" chart-colors="jc.chartColors">
     </canvas>
-
     <div class="counter col-md-6" id="stable">
-      <h1>{{jc.data.stable || 0}}</h1>
+      <p>{{jc.data.stable || 0}}</p>
       stable builds
     </div>
     <div class="counter col-md-6" id="unstable">
-      <h1>{{jc.data.unstable || 0}}</h1>
+      <p>{{jc.data.unstable || 0}}</p>
       unstable builds
     </div>
     <div class="counter col-md-6" id="failed">
-      <h1>{{jc.data.fail || 0}}</h1>
+      <p>{{jc.data.fail || 0}}</p>
       failed builds
     </div>
-    <div class="counter col-md-6"id="disabled">
-      <h1>{{jc.data.aborted+jc.data.disabled || 0}}</h1>
+    <div class="counter col-md-6" id="disabled">
+      <p>{{jc.data.aborted+jc.data.disabled || 0}}</p>
       disabled builds
     </div>
-
   </div>
-
 </div>
