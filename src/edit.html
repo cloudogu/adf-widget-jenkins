@@ -1,6 +1,7 @@
 <form role="form">
   <div class="form-group">
-    <label ng-if="!vm.url">Connection Setup</label><span ng-if="!vm.url" class="grey glyphicon glyphicon-info-sign ng-scope" uib-tooltip-html="connectionSetupTooltip" tooltip-placement="bottom" aria-label="A valid URL to your Jenkins server must be stored here"></span>
+    <label ng-if="!vm.url">Connection Setup</label>
+    <span ng-if="!vm.url" class="grey glyphicon glyphicon-info-sign ng-scope" uib-tooltip-html="connectionSetupTooltip" tooltip-trigger="'outsideClick'" tooltip-is-open="tooltipIsOpen" ng-mouseover="tooltipIsOpen = !tooltipIsOpen" tooltip-placement="bottom" aria-label="A valid URL to your Jenkins server must be stored here"></span>
 
     <p ng-if="!vm.url">
       <input class="form-control" id="apiUrl" ng-model="config.apiUrl" placeholder="Enter Api-Url" type="text" ng-change="vm.updateProjectList(config.apiUrl)">
