@@ -1,9 +1,8 @@
 <form role="form">
   <div ng-if="!vm.url" class="form-group">
-    <label>Connection Setup</label>
+    <label>Connection Setup</label><span class="grey glyphicon glyphicon-info-sign ng-scope" uib-tooltip-html="connectionSetupTooltip" tooltip-placement="bottom" aria-label="A valid URL to your Jenkins server must be stored here."></span>
     <p>
       <input class="form-control" id="apiUrl" ng-model="config.apiUrl" placeholder="Enter Api-Url" type="text">
     </p>
-
   </div>
 </form>
