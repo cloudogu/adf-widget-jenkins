@@ -1,6 +1,6 @@
 <form role="form">
   <div ng-if="!vm.url" class="form-group">
-    <label>Connection Setup</label><span class="grey glyphicon glyphicon-info-sign ng-scope" uib-tooltip-html="connectionSetupTooltip" tooltip-trigger="'outsideClick'" tooltip-is-open="tooltipIsOpen" ng-mouseover="tooltipIsOpen = !tooltipIsOpen" tooltip-placement="bottom" aria-label="A valid URL to your Jenkins server must be stored here."></span>
+    <label>Connection Setup</label><span class="grey glyphicon glyphicon-info-sign ng-scope" uib-tooltip-html="connectionSetupTooltip" tooltip-trigger="'outsideClick'" tooltip-is-open="tooltipIsOpen" ng-mouseover="tooltipIsOpen = !tooltipIsOpen" tooltip-placement="bottom" aria-label="Enter the URL to your Jenkins API server. A valid URL starts with http:// or https://. You can test the widget with the URL https://builds.apache.org/ ."></span>
     <p>
       <input class="form-control" id="apiUrl" ng-model="config.apiUrl" placeholder="Enter Api-Url" type="text">
     </p>
