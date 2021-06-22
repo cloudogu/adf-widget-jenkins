@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('adf.widget.jenkins')
-  .controller('projectViewEditController', function (jenkinsApi, $scope, jenkinsEndpoint) {
+  .controller('projectViewEditController', function (jenkinsApi, $scope, $sce,jenkinsEndpoint) {
+
+    // tooltip for project
+    $scope.connectionSetupTooltip = $sce.trustAsHtml('Enter the URL to your Jenkins API server. A valid URL starts with http:// or https://. You can test the widget with the URL https://builds.apache.org/ .');
 
     var vm = this;
 
