@@ -1,12 +1,25 @@
 <form role="form">
   <div class="form-group">
     <label ng-if="!vm.url">Connection Setup</label>
-    <span ng-if="!vm.url" class="grey glyphicon glyphicon-info-sign ng-scope" uib-tooltip-html="connectionSetupTooltip" tooltip-trigger="'outsideClick'" tooltip-is-open="tooltipIsOpen" ng-mouseover="tooltipIsOpen = !tooltipIsOpen" tooltip-placement="bottom" aria-label="Enter the URL to the Jenkins API server. A valid URL starts with http:// or https://. You can test the widget with the URL https://builds.apache.org/ ."></span>
+    <span ng-if="!vm.url" class="glyphicon glyphicon-info-sign ng-scope"
+          uib-tooltip-html="connectionSetupTooltip"
+          tooltip-trigger="'outsideClick'"
+          tooltip-is-open="connectionSetupTooltipIsOpen"
+          ng-mouseover="connectionSetupTooltipIsOpen = !connectionSetupTooltipIsOpen"
+          tooltip-placement="bottom"
+          aria-label="Enter the URL to the Jenkins API server. A valid URL starts with http:// or https://. You can test the widget with the URL https://builds.apache.org/ ."></span>
 
     <p ng-if="!vm.url">
       <input class="form-control" id="apiUrl" ng-model="config.apiUrl" placeholder="Enter Api-Url" type="text" ng-change="vm.updateProjectList(config.apiUrl)">
     </p>
-    <label>Project</label><span class="grey glyphicon glyphicon-info-sign ng-scope" uib-tooltip="Select a project by typing its name. Auto-completion shows matching projects to select from. Review your URL if no projects are displayed." tooltip-placement="bottom" aria-label="Select a project by typing its name. Auto-completion shows matching projects to select from. Review your URL if no projects are displayed."></span>
+    <label>Project</label>
+    <span class="glyphicon glyphicon-info-sign ng-scope"
+          uib-tooltip="Select a project by typing its name. Auto-completion shows matching projects to select from. Review your URL if no projects are displayed."
+          tooltip-trigger="'outsideClick'"
+          ng-mouseover="projectTooltipIsOpen = !projectTooltipIsOpen"
+          tooltip-is-open="projectTooltipIsOpen"
+          tooltip-placement="top"
+          aria-label="Select a project by typing its name. Auto-completion shows matching projects to select from. Review your URL if no projects are displayed."></span>
 
     <input type="text" ng-model="config.project"
            uib-typeahead="project.name for project in vm.projects | filter:$viewValue | limitTo:10" class="form-control">
