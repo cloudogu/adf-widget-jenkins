@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.1] - 2021-07-01
+### Changed
+* remove unnecessary attributes from tooltips
 
 ## [v0.4.0] - 2021-05-22
 ### Added 
